@@ -1,0 +1,52 @@
+{
+  "rules": {
+    "react/jsx-no-undef": [2, { "allowGlobals": true }],
+    "camelcase": [
+      "error",
+      {
+        "properties": "always"
+      }
+    ],
+    "key-spacing": [
+      "error",
+      {
+        "afterColon": true
+      }
+    ],
+    "no-alert": "error",
+    "no-var": "error",
+    "react/jsx-space-before-closing": "off",
+    "react/jsx-tag-spacing": [
+      "error",
+      {
+        "closingSlash": "never",
+        "beforeSelfClosing": "never",
+        "afterOpening": "never"
+      }
+    ],
+    "react/prop-types": "on",
+    "react/no-unused-prop-types": "off",
+    "react/jsx-indent-props": "off",
+    "react/jsx-boolean-value": "off",
+    "react/prefer-stateless-function": "off",
+    "react/jsx-pascal-case": "error",
+    "react/prefer-es6-class": [
+      "error",
+      "always"
+    ],
+    "react/no-direct-mutation-state": [
+      "error"
+    ],
+    "react/no-deprecated": [
+      "error"
+    ],
+    "react/no-array-index-key": [
+      "off"
+    ],
+    "jsx-quotes": [
+      2,
+      "prefer-double"
+    ]
+  }
+
+}

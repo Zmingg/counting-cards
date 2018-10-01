@@ -1,0 +1,65 @@
+{
+  "name": "counting-cards",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "better-npm-run dev"
+  },
+  "betterScripts": {
+    "dev": "webpack-dev-server --mode development --config config/webpack.config.js",
+    "server": "cd server && node index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Zmingg/counting-cards.git"
+  },
+  "keywords": [
+    "counter",
+    "animation",
+    "react"
+  ],
+  "author": "zmingg",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Zmingg/counting-cards/issues"
+  },
+  "homepage": "https://github.com/Zmingg/counting-cards#readme",
+  "dependencies": {
+    "@babel/preset-react": "^7.0.0",
+    "immutable": "^3.8.2",
+    "lodash": "^4.17.11",
+    "moment": "^2.22.2",
+    "prop-types": "^15.6.2",
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2",
+    "typescript": "^3.1.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.1.2",
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "@babel/plugin-proposal-decorators": "^7.1.2",
+    "@babel/preset-env": "^7.1.0",
+    "babel-eslint": "^10.0.1",
+    "babel-loader": "^8.0.4",
+    "better-npm-run": "^0.1.1",
+    "copy-webpack-plugin": "^4.5.2",
+    "css-loader": "^1.0.0",
+    "eslint": "^5.6.1",
+    "file-loader": "^2.0.0",
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^3.2.0",
+    "json-loader": "^0.5.7",
+    "mini-css-extract-plugin": "^0.4.3",
+    "postcss-loader": "^3.0.0",
+    "postcss-preset-env": "^6.0.7",
+    "postcss-pxtorem": "^4.0.1",
+    "postcss-scss": "^2.0.0",
+    "precss": "^3.1.2",
+    "style-loader": "^0.23.0",
+    "webpack": "^4.20.2",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.9"
+  }
+}

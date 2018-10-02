@@ -35,33 +35,35 @@ export default class extends Component {
     const {next} = this.state;
     return (
       <div className={`counter-num ${className}`} {...rest}>
-        <div className="current">
-          <div className="active" style={{
-            transform: 'perspective(300px) rotateX(-80deg)',
-          }}>
-            <span>{current}</span>
-            <div className="placeholder"/>
-          </div>
-          <div className="static">
-            <div className="bottom">
-              <span>{current}</span>
-            </div>
-          </div>
-        </div>
-        <div className="next">
-          <div className="static">
+
+        <div className="static">
+          <div className="top">
             <span>{next}</span>
-            <div className="segmentation"/>
           </div>
-          <div className="active" style={{
-            transform: 'perspective(300px) rotateX(70deg)',
-          }}>
-            <div className="placeholder"/>
-            <div className="bottom">
-              <span>{next}</span>
-            </div>
+          <div className="segmentation"/>
+          <div className="bottom">
+            <span>{current}</span>
           </div>
         </div>
+
+        <div className="rotate current" style={{
+          transform: 'perspective(300px) rotateX(-80deg)'
+        }}>
+          <div className="top">
+            <span>{current}</span>
+          </div>
+          <div className="placeholder"/>
+        </div>
+
+        <div className="rotate next" style={{
+          transform: 'perspective(300px) rotateX(80deg)'
+        }}>
+          <div className="placeholder"/>
+          <div className="bottom">
+            <span>{next}</span>
+          </div>
+        </div>
+
       </div>
     )
   }

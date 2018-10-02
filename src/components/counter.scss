@@ -3,7 +3,7 @@
 /* font size */
 $font-size: 160px;
 /* the segmentation-line's height */
-$line-height: calc(#{$font-size} * .05);
+$segmentation-height: calc(#{$font-size} * .05);
 /* margin */
 $margin: calc(#{$font-size} * .05);
 /* colors */
@@ -12,9 +12,9 @@ $font-color: $primary-color;
 
 .ui-counter {
   font-weight: bold;
-  $box-height: calc(#{$font-size} * .6);
-  $active-height: calc(#{$box-height} * 2);
-  $counter-height: calc(#{$box-height} * 2 + #{$line-height});
+  $half-height: calc(#{$font-size} * .6);
+  $rotate-height: calc(#{$half-height} * 2);
+  $counter-height: calc(#{$half-height} * 2 + #{$segmentation-height});
   display: inline-block;
 
   .counter-num {
@@ -29,97 +29,64 @@ $font-color: $primary-color;
     position: relative;;
     display: inline-block;
 
-    .next, .current {
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      top: 0;
-      left: 0;
+    .top, .bottom {
+      height: $half-height;
+      background: $background-color;
+      color: $font-color;
+      overflow: hidden;
     }
 
     .placeholder {
-      width: $font-size;
-      height: calc(#{$box-height});
+      height: $half-height;
       background: transparent;
-    }
-
-    .bottom {
-      height: $box-height;
-      background: $background-color;
       overflow: hidden;
-      position: relative;
-    }
-
-    span {
-      position: absolute;
-      width: $font-size;
-      height: $counter-height;
-      color: $font-color;
-      background: $background-color;
-      display: block;
-      overflow: hidden;
-    }
-
-    .static {
-      height: $box-height;
-      position: relative;
-
-      span {
-        bottom: 0;
-      }
     }
 
     .segmentation {
-      position: absolute;
+      height: $segmentation-height;
       background: transparent;
-      height: $line-height;
-      width: $font-size;
     }
 
-    .active {
-      height: $active-height;
-      width: 100%;
-      background: transparent;
-      position: absolute;
-      overflow: hidden;
+    span {
+      display: block;
+      height: $counter-height;
     }
 
-    .current {
-      z-index: 1;
+    .static, .rotate {
+      .bottom {
+        position: relative;
 
-      .active span {
-        height: $box-height;
-      }
-
-      .static {
-        margin-top: calc(#{$box-height} + #{$line-height});
-      }
-    }
-
-    .next {
-      z-index: 0;
-
-      .active {
-        top: $line-height;
-        height: $active-height;
-
-        .bottom span {
+        span {
+          position: absolute;
+          width: 100%;
           bottom: 0;
         }
       }
-
-      .static span {
-        top: 0;
-        height: $box-height;
-
-        .segmentation {
-          top: $box-height;
-        }
-      }
-
-
-
     }
+
+    .static {
+      height: $counter-height;
+      position: relative;
+    }
+
+    .rotate {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+      width: 100%;
+      height: $rotate-height;
+    }
+
+    .current {
+      z-index: 2;
+    }
+
+    .next {
+      z-index: 1;
+      margin-top: $segmentation-height;
+    }
+
 
   }
 }

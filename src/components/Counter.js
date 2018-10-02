@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import Number from './Number';
 import PropTypes from 'prop-types';
 import './counter.scss';
 
@@ -8,7 +9,7 @@ import './counter.scss';
 export default class extends Component {
 
   state = {
-    current: [1, 2, 3, 4, 5, 6],
+    current: [],
     prevProps: {}
   };
 
@@ -43,26 +44,8 @@ export default class extends Component {
 
   renderNum = (num, key) => {
     const current = parseInt(num) || 0;
-    const next = current + 1 < 10 ? current + 1 : 0;
-
     return (
-      <div className="counter-num" key={key}>
-        <div className="top" style={{
-          transform: 'perspective(300px) rotateX(-75deg)',
-        }}>
-          <span>{current}</span>
-          <div className="placeholder"/>
-
-        </div>
-        <div className="segmentation"/>
-        <div className="bottom">
-          <span>{current}</span>
-        </div>
-        <div className="next top">
-          <div className="placeholder"/>
-          <span>{next}</span>
-        </div>
-      </div>
+      <Number current={current} key={key}/>
     );
   };
 

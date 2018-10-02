@@ -1,9 +1,11 @@
 @import "../style/colors";
 
 /* font size */
-$font-size: 60px;
+$font-size: 160px;
 /* the segmentation-line's height */
-$line-height: 2px;
+$line-height: calc(#{$font-size} * .05);
+/* margin */
+$margin: calc(#{$font-size} * .05);
 /* colors */
 $background-color: $secondary-color;
 $font-color: $primary-color;
@@ -11,6 +13,7 @@ $font-color: $primary-color;
 .ui-counter {
   font-weight: bold;
   $box-height: calc(#{$font-size} * .6);
+  $active-height: calc(#{$box-height} * 2);
   $counter-height: calc(#{$box-height} * 2 + #{$line-height});
   display: inline-block;
 
@@ -21,84 +24,100 @@ $font-color: $primary-color;
     font-size: $font-size;
     text-align: center;
     background: transparent;
-    margin-right: 10px;
+    margin: 0 $margin;
+
     position: relative;;
     display: inline-block;
 
+    .next, .current {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .placeholder {
+      width: $font-size;
+      height: calc(#{$box-height});
+      background: transparent;
+    }
+
+    .bottom {
+      height: $box-height;
+      background: $background-color;
+      overflow: hidden;
+      position: relative;
+    }
 
     span {
+      position: absolute;
+      width: $font-size;
+      height: $counter-height;
       color: $font-color;
+      background: $background-color;
+      display: block;
+      overflow: hidden;
+    }
+
+    .static {
+      height: $box-height;
+      position: relative;
+
+      span {
+        bottom: 0;
+      }
     }
 
     .segmentation {
       position: absolute;
-      top: $box-height;
       background: transparent;
       height: $line-height;
       width: $font-size;
     }
 
-    .top {
-      height: $counter-height;
+    .active {
+      height: $active-height;
       width: 100%;
       background: transparent;
       position: absolute;
-      display: flex;
-      justify-content: center;
-      z-index: 1;
-
-      span {
-        width: $font-size;
-        height: $box-height;
-        position: absolute;
-        background: $background-color;
-        border-radius: 10px 10px 0 0;
-        display: block;
-        overflow: hidden;
-      }
-
-      .placeholder {
-        width: $font-size;
-        height: calc(#{$box-height} + #{$line-height});
-        position: absolute;
-        top: $box-height;
-        background: transparent;
-      }
+      overflow: hidden;
     }
 
-    .bottom {
-      height: $box-height;
-      position: absolute;
-      top: calc(#{$box-height} + #{$line-height});
-      display: flex;
-      justify-content: center;
-      width: $font-size;
-      overflow: hidden;
-      background: $background-color;
-      border-radius: 0 0 10px 10px;
+    .current {
+      z-index: 1;
 
-      span {
-        position: absolute;
-        bottom: 0;
-        display: block;
+      .active span {
+        height: $box-height;
+      }
+
+      .static {
+        margin-top: calc(#{$box-height} + #{$line-height});
       }
     }
 
     .next {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
       z-index: 0;
 
-      .top {
+      .active {
+        top: $line-height;
+        height: $active-height;
 
+        .bottom span {
+          bottom: 0;
+        }
       }
 
-      .bottom {
+      .static span {
+        top: 0;
+        height: $box-height;
 
+        .segmentation {
+          top: $box-height;
+        }
       }
+
+
 
     }
 

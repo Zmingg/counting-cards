@@ -1,11 +1,13 @@
 module.exports = {
   parser: 'postcss-scss',
   plugins: {
+
+    'postcss-preset-env': {},
+    'precss': {},
+    'autoprefixer': {},
     'postcss-pxtorem': {
       propList: ['*'],
     },
-    'postcss-preset-env': {},
-    'precss': {},
   },
   sourcemap: true
 };

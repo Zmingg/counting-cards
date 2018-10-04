@@ -10,6 +10,11 @@ $margin: calc(#{$font-size} * .05);
 $background-color: $secondary-color;
 $font-color: $primary-color;
 
+button {
+  display: block;
+  height: 50px;
+}
+
 .ui-counter {
   font-weight: bold;
   $half-height: calc(#{$font-size} * .6);
@@ -86,8 +91,6 @@ $font-color: $primary-color;
       z-index: 1;
       margin-top: $segmentation-height;
     }
-
-
   }
 }
 
@@ -102,7 +105,10 @@ $font-color: $primary-color;
 
 .rotate-current-enter-active {
   transform: perspective(200px) rotateX(-90deg);
-  transition: all 200ms linear 0ms;
+}
+
+.rotate-current-enter-done {
+  transform: perspective(200px) rotateX(0deg);
 }
 
 .rotate-current-exit {
@@ -115,7 +121,10 @@ $font-color: $primary-color;
 
 .rotate-next-enter-active {
   transform:  perspective(200px) rotateX(0deg);
-  transition: all 200ms linear 200ms;
+}
+
+.rotate-next-enter-done {
+  transform: perspective(200px) rotateX(90deg);
 }
 
 .rotate-next-exit {

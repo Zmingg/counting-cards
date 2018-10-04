@@ -9,11 +9,13 @@ import {
 export default class extends Component {
 
   static propTypes = {
-    current: PropTypes.number.isRequired
+    current: PropTypes.number.isRequired,
+    duration: PropTypes.number
   };
 
   static defaultProps = {
-    current: 0
+    current: 0,
+    duration: 100
   };
 
   state = {
@@ -26,21 +28,20 @@ export default class extends Component {
     const newState = {};
     const prevProps = state.prevProps;
 
-    // Todo: ...
+    if (prevProps.current !== props.current) {
+      newState.rotate = true;
+    }
 
     return {
       ...state,
-      ...newState
+      ...newState,
+      prevProps: props
     }
   }
 
-  componentDidUpdate(props, state) {
+  componentDidMount() {
 
   }
-
-  next = (current) => {
-    return current + 1 < 10 ? current + 1 : 0;
-  };
 
   runTransition = () => {
     this.setState({
@@ -51,14 +52,14 @@ export default class extends Component {
   afterTransition = () => {
     this.setState({
       rotate: false,
-      current: this.next(this.state.current)
+      current: this.props.current
     });
   };
 
   render() {
-    const {className, ...rest} = this.props;
+    const {className, duration, ...rest} = this.props;
     const {current, rotate} = this.state;
-    const next = this.next(current);
+    const next = this.props.current;
 
     return (
       <div className={`counter-num ${className}`} {...rest}>
@@ -74,31 +75,45 @@ export default class extends Component {
         </div>
 
         <CSSTransition classNames="rotate-current"
-                       timeout={400}
-                       in={rotate}
-                       // onEntered={() => this.setState({rotate: false})}
-        >
-          <div className="rotate current" style={{transform: 'perspective(500)'}}>
-            <div className="top">
-              <span>{current}</span>
-            </div>
-            <div className="placeholder"/>
-          </div>
+                       timeout={duration / 2}
+                       in={rotate}>
+          {state => {
+            return (
+              <div className="rotate current" style={state === 'entering' ? {
+                transitionDuration: duration / 2 + 'ms'
+              } : null}>
+                <div className="top">
+                  <span>{current}</span>
+                </div>
+                <div className="placeholder"/>
+              </div>
+            )
+          }}
         </CSSTransition>
 
         <CSSTransition classNames="rotate-next"
-                       timeout={400}
+                       timeout={duration / 2}
                        in={rotate}
-                       onEntered={this.afterTransition}>
-          <div className="rotate next">
-            <div className="placeholder"/>
-            <div className="bottom">
-              <span>{next}</span>
-            </div>
-          </div>
+                       onEnter={this.afterTransition}>
+          {state =>{
+            console.log(state);
+            return (
+              <div className="rotate next" style={state === 'entering' ? {
+                transitionDelay: duration / 2 + 'ms',
+                transitionDuration: duration / 2 + 'ms'
+              } : null}>
+                <div className="placeholder"/>
+                <div className="bottom">
+                  <span>{next}</span>
+                </div>
+              </div>
+            )
+          }
+
+          }
         </CSSTransition>
 
-        <button onClick={this.runTransition}>OK</button>
+        <button onClick={this.runTransition}>add</button>
 
       </div>
 

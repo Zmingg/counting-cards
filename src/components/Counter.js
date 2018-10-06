@@ -65,6 +65,15 @@ export default class Counter extends Component {
 
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      ...this.state,
+      current: props.number,
+      numbers: Counter.splitNumbers(props.number, props.padding)
+    };
+  }
+
   componentDidUpdate(props, state) {
     this.timerAction()
   }
@@ -72,7 +81,7 @@ export default class Counter extends Component {
   renderNum = (num, key) => {
     const current = parseInt(num) || 0;
     return (
-      <Number key={key} current={current} duration={this.props.duration / this.state.offset}/>
+      <Number key={key} current={current} duration={this.props.duration / (this.state.offset + 1)}/>
     );
   };
 

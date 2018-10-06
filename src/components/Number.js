@@ -6,6 +6,8 @@ import {
   TransitionGroup,
 } from 'react-transition-group';
 
+const debug = require('debug')('number');
+
 export default class extends Component {
 
   static propTypes = {
@@ -28,8 +30,13 @@ export default class extends Component {
     const newState = {};
     const prevProps = state.prevProps;
 
-    if (prevProps.current !== props.current) {
+    if (prevProps.current === undefined && props.current !== undefined) {
+      newState.current = props.current;
+    }
+
+    if (prevProps.current !== undefined && prevProps.current !== props.current) {
       newState.rotate = true;
+      debug('change rotate: true')
     }
 
     return {
@@ -40,16 +47,18 @@ export default class extends Component {
   }
 
   componentDidMount() {
-
+    debug('mount')
   }
 
   runTransition = () => {
+    debug('run')
     this.setState({
       rotate: true
     });
   };
 
   afterTransition = () => {
+    debug('stop')
     this.setState({
       rotate: false,
       current: this.props.current
@@ -77,40 +86,29 @@ export default class extends Component {
         <CSSTransition classNames="rotate-current"
                        timeout={duration / 2}
                        in={rotate}>
-          {state => {
-            return (
-              <div className="rotate current" style={state === 'entering' ? {
-                transitionDuration: duration / 2 + 'ms'
-              } : null}>
-                <div className="top">
-                  <span>{current}</span>
-                </div>
-                <div className="placeholder"/>
-              </div>
-            )
-          }}
+          <div className="rotate current" style={{
+            transitionDuration: (rotate ? duration / 2 : 0) + 'ms',
+          }}>
+            <div className="top">
+              <span>{current}</span>
+            </div>
+            <div className="placeholder"/>
+          </div>
         </CSSTransition>
 
         <CSSTransition classNames="rotate-next"
-                       timeout={duration / 2}
-                       in={rotate}
-                       onEnter={this.afterTransition}>
-          {state =>{
-            console.log(state);
-            return (
-              <div className="rotate next" style={state === 'entering' ? {
-                transitionDelay: duration / 2 + 'ms',
-                transitionDuration: duration / 2 + 'ms'
-              } : null}>
-                <div className="placeholder"/>
-                <div className="bottom">
-                  <span>{next}</span>
-                </div>
-              </div>
-            )
-          }
-
-          }
+                       timeout={duration}
+                       onEntered={this.afterTransition}
+                       in={rotate}>
+          <div className="rotate next" style={{
+            transitionDelay: (rotate ? duration / 2 : 0) + 'ms',
+            transitionDuration: (rotate ? duration / 2 : 0) + 'ms',
+          }}>
+            <div className="placeholder"/>
+            <div className="bottom">
+              <span>{next}</span>
+            </div>
+          </div>
         </CSSTransition>
 
         <button onClick={this.runTransition}>add</button>

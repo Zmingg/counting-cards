@@ -148,7 +148,7 @@ export default class Number extends Component {
           </div>
         </CSSTransition>
 
-        <button onClick={this.runTransition}>add</button>
+        {/*<button onClick={this.runTransition}>add</button>*/}
 
       </div>
 

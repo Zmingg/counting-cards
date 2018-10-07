@@ -20,7 +20,7 @@ export default class Counter extends Component {
   static defaultProps = {
     number: 0,
     padding: 8,
-    duration: 1500
+    duration: 1000
   };
 
   state = {
@@ -44,7 +44,7 @@ export default class Counter extends Component {
     const {number, padding} = props;
     if (state.current !== number) {
       newState.current = number;
-      newState.numbers = Counter.splitNumbers(state.current + 1, padding)
+      newState.numbers = Counter.splitNumbers(number, padding)
     }
 
     return {
@@ -93,7 +93,7 @@ export default class Counter extends Component {
   renderNum = (num, key) => {
     const current = parseInt(num) || 0;
     return (
-      <Number key={key} current={current} duration={this.props.duration / (this.state.offset + 1)}/>
+      <Number key={key} current={current} duration={1000}/>
     );
   };
 

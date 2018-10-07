@@ -21,7 +21,7 @@ export default class Home extends Component {
 
   handleChange = () => {
     this.setState({
-      number: this.state.number + Math.ceil(Math.random() * 10)
+      number: this.state.number + Math.ceil(Math.random() * 1000)
     })
   };
 

@@ -8,7 +8,7 @@ import {
 
 const debug = require('debug')('number');
 
-export default class extends Component {
+export default class Number extends Component {
 
   static propTypes = {
     current: PropTypes.number.isRequired,
@@ -17,13 +17,21 @@ export default class extends Component {
 
   static defaultProps = {
     current: 0,
-    duration: 100
+    duration: 1000
   };
 
   state = {
     current: 0,
     rotate: false,
+    duration: 1000,
     prevProps: {}
+  };
+
+  static duration = (next, current, totalDuration = 1000) => {
+    const offset = next > current
+      ? next - current
+      : 10 + next - current;
+    return totalDuration / offset;
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -36,7 +44,7 @@ export default class extends Component {
 
     if (prevProps.current !== undefined && prevProps.current !== props.current) {
       newState.rotate = true;
-      debug('change rotate: true')
+      newState.duration = Number.duration(props.current, prevProps.current, props.duration);
     }
 
     return {
@@ -46,29 +54,58 @@ export default class extends Component {
     }
   }
 
-  componentDidMount() {
-    debug('mount')
+  componentDidUpdate(props, state) {
+    if (!this.state.rotate && props.current !== this.state.current) {
+      this.timerAction();
+    }
+
+    if (this.timer && props.current === this.state.current) {
+      clearInterval(this.timer);
+      this.timer = null;
+      this.setState({
+        rotate: false
+      })
+    }
+  }
+
+  timerAction = () => {
+    const props = this.props;
+    const {current, duration} = this.state;
+    if (!this.timer && current !== props.current) {
+      // const offset = props.current > this.state.current
+      //   ? props.current - this.state.current
+      //   : 10 + props.current - this.state.current;
+      this.timer = setInterval(() => {
+        this.setState({
+          // duration: props.duration / offset,
+          rotate: true
+        })
+      }, duration);
+    }
+
+  };
+
+  next(num) {
+    return num + 1 >= 10 ? 0 : num + 1;
   }
 
   runTransition = () => {
-    debug('run')
     this.setState({
       rotate: true
     });
   };
 
   afterTransition = () => {
-    debug('stop')
     this.setState({
       rotate: false,
-      current: this.props.current
+      current: this.next(this.state.current)
     });
   };
 
   render() {
-    const {className, duration, ...rest} = this.props;
-    const {current, rotate} = this.state;
-    const next = this.props.current;
+    const {className, ...rest} = this.props;
+    const {current, rotate , duration} = this.state;
+    const next = this.next(current);
 
     return (
       <div className={`counter-num ${className}`} {...rest}>
@@ -84,7 +121,7 @@ export default class extends Component {
         </div>
 
         <CSSTransition classNames="rotate-current"
-                       timeout={duration / 2}
+                       timeout={duration}
                        in={rotate}>
           <div className="rotate current" style={{
             transitionDuration: (rotate ? duration / 2 : 0) + 'ms',

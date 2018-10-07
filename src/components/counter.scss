@@ -116,12 +116,12 @@ button {
 
 .rotate-current-enter-done {
   transform: perspective($perspective) rotateX(-90deg);
-  transition: all 0ms ease;
+  transition: all 0ms ease-in;
 }
 
 .rotate-current-exit {
   transform: perspective($perspective) rotateX(0deg);
-  transition: all 0ms ease;
+  transition: all 0ms ease-in;
 }
 
 .rotate-next-enter {
@@ -134,11 +134,11 @@ button {
 
 .rotate-next-enter-done {
   transform: perspective($perspective) rotateX(0deg);
-  transition: all 0ms ease;
+  transition: all 0ms ease-out;
 }
 
 .rotate-next-exit {
   transform: perspective($perspective) rotateX(90deg);
-  transition: all 0ms ease;
+  transition: all 0ms ease-out;
 }
 

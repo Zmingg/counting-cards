@@ -39,29 +39,43 @@ export default class Counter extends Component {
     return arr;
   };
 
+  static getDerivedStateFromProps(props, state) {
+    const newState = {};
+    const {number, padding} = props;
+    if (state.current !== number) {
+      newState.current = number;
+      newState.numbers = Counter.splitNumbers(state.current + 1, padding)
+    }
+
+    return {
+      ...state,
+      ...newState
+    }
+  }
+
   /**
    * 计时器
    **/
-  timerAction = () => {
-    const {number, duration, padding} = this.props;
-    const {current} = this.state;
-    if (current < number && !this.timer) {
-      const offset = number - current;
-      this.timer = setInterval(() => {
-        this.setState({
-          offset,
-          current: this.state.current + 1,
-          numbers: Counter.splitNumbers(this.state.current + 1, padding)
-        })
-      }, duration / offset);
-    }
-
-    if (current === number) {
-      clearInterval(this.timer);
-      this.timer = null;
-    }
-
-  };
+  // timerAction = () => {
+  //   const {number, duration, padding} = this.props;
+  //   const {current} = this.state;
+  //   if (current < number && !this.timer) {
+  //     const offset = number - current;
+  //     this.timer = setInterval(() => {
+  //       this.setState({
+  //         offset,
+  //         current: this.state.current + 1,
+  //         numbers: Counter.splitNumbers(this.state.current + 1, padding)
+  //       })
+  //     }, duration / offset);
+  //   }
+  //
+  //   if (current === number) {
+  //     clearInterval(this.timer);
+  //     this.timer = null;
+  //   }
+  //
+  // };
 
   constructor(props) {
     super(props);
@@ -73,7 +87,7 @@ export default class Counter extends Component {
   }
 
   componentDidUpdate(props, state) {
-    this.timerAction()
+    // this.timerAction()
   }
 
   renderNum = (num, key) => {
@@ -89,7 +103,6 @@ export default class Counter extends Component {
     return (
       <div className="ui-counter">
         {numbers.map((num, index) => this.renderNum(num, index))}
-        {/*<div style={{color: 'white'}}>{current}</div>*/}
       </div>
     );
   }

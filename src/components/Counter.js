@@ -3,8 +3,6 @@ import Number from './Number';
 import PropTypes from 'prop-types';
 import './counter.scss';
 
-
-
 /**
  * Counting Card Component
  */
@@ -22,7 +20,7 @@ export default class Counter extends Component {
   static defaultProps = {
     number: 0,
     padding: 8,
-    duration: 1000
+    duration: 1500
   };
 
   state = {

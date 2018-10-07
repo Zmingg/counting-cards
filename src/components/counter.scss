@@ -9,6 +9,8 @@ $margin: calc(#{$font-size} * .05);
 /* colors */
 $background-color: $secondary-color;
 $font-color: $primary-color;
+/* perspective */
+$perspective: 300px;
 
 button {
   display: block;
@@ -20,6 +22,7 @@ button {
   $half-height: calc(#{$font-size} * .6);
   $rotate-height: calc(#{$half-height} * 2);
   $counter-height: calc(#{$half-height} * 2 + #{$segmentation-height});
+  $border-radius: calc(#{$font-size} * .1);
   display: inline-block;
 
   .counter-num {
@@ -58,7 +61,12 @@ button {
     }
 
     .static, .rotate {
+      .top {
+        border-radius: $border-radius $border-radius 0 0;
+      }
+
       .bottom {
+        border-radius: 0 0 $border-radius $border-radius;
         position: relative;
 
         span {
@@ -95,42 +103,43 @@ button {
 }
 
 .next{
-  transform: perspective(200px) rotateX(90deg);
-
+  transform: perspective($perspective) rotateX(90deg);
 }
 
 .rotate-current-enter {
-  transform: perspective(200px) rotateX(0deg);
+  transform: perspective($perspective) rotateX(0deg);
 }
 
 .rotate-current-enter-active {
-  transform: perspective(200px) rotateX(-90deg);
+  transform: perspective($perspective) rotateX(-90deg);
   //transition: all 300ms linear;
 }
 
 .rotate-current-enter-done {
-  transform: perspective(200px) rotateX(-90deg);
+  transform: perspective($perspective) rotateX(-90deg);
   transition: all 0ms linear;
 }
 
 .rotate-current-exit {
-  transform: perspective(200px) rotateX(0deg);
+  transform: perspective($perspective) rotateX(0deg);
   transition: all 0ms linear;
 }
 
 .rotate-next-enter {
-  transform:  perspective(200px) rotateX(90deg);
+  transform:  perspective($perspective) rotateX(90deg);
 }
 
 .rotate-next-enter-active {
-  transform:  perspective(200px) rotateX(0deg);
+  transform:  perspective($perspective) rotateX(0deg);
   //transition: all 300ms linear 300ms;
 }
 
 .rotate-next-enter-done {
-  transform: perspective(200px) rotateX(90deg);
+  transform: perspective($perspective) rotateX(90deg);
+  transition: all 0ms linear;
 }
 
 .rotate-next-exit {
-  transform: perspective(200px) rotateX(90deg);
+  transform: perspective($perspective) rotateX(90deg);
+  transition: all 0ms linear;
 }

@@ -16,7 +16,7 @@ export default class Home extends Component {
       this.setState({
         number: this.state.number + Math.ceil(Math.random() * 1000)
       })
-    }, 3000)
+    }, 5000)
   };
 
   handleChange = () => {
@@ -30,7 +30,7 @@ export default class Home extends Component {
 
     return (
       <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
-        <Counter number={number} padding={6}/>
+        <Counter number={number} padding={6} duration={1500}/>
         {/*<button style={{marginTop: '50px'}} onClick={this.handleChange}>Change</button>*/}
       </div>
     );

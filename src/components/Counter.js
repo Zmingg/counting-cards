@@ -53,30 +53,6 @@ export default class Counter extends Component {
     }
   }
 
-  /**
-   * 计时器
-   **/
-  // timerAction = () => {
-  //   const {number, duration, padding} = this.props;
-  //   const {current} = this.state;
-  //   if (current < number && !this.timer) {
-  //     const offset = number - current;
-  //     this.timer = setInterval(() => {
-  //       this.setState({
-  //         offset,
-  //         current: this.state.current + 1,
-  //         numbers: Counter.splitNumbers(this.state.current + 1, padding)
-  //       })
-  //     }, duration / offset);
-  //   }
-  //
-  //   if (current === number) {
-  //     clearInterval(this.timer);
-  //     this.timer = null;
-  //   }
-  //
-  // };
-
   constructor(props) {
     super(props);
     this.state = {
@@ -93,12 +69,12 @@ export default class Counter extends Component {
   renderNum = (num, key) => {
     const current = parseInt(num) || 0;
     return (
-      <Number key={key} current={current} duration={1000}/>
+      <Number key={key} current={current} duration={this.props.duration}/>
     );
   };
 
   render() {
-    const {numbers, current} = this.state;
+    const {numbers} = this.state;
 
     return (
       <div className="ui-counter">

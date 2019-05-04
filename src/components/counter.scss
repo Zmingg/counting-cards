@@ -1,16 +1,18 @@
 @import "../style/colors.scss";
 
+/* width */
+$width: 1em;
 /* font size */
-$font-size: 160px;
+$font-size: 1em;
 /* the segmentation-line's height */
-$segmentation-height: calc(#{$font-size} * .05);
+$segmentation-height: .04em;
 /* margin */
-$margin: calc(#{$font-size} * .05);
+$margin: .1em;
 /* colors */
 $background-color: $secondary-color;
 $font-color: $primary-color;
 /* perspective */
-$perspective: 200px;
+$perspective: 50px;
 
 button {
   display: block;
@@ -19,14 +21,14 @@ button {
 
 .ui-counter {
   font-weight: bold;
-  $half-height: calc(#{$font-size} * .6);
-  $rotate-height: calc(#{$half-height} * 2);
-  $counter-height: calc(#{$half-height} * 2 + #{$segmentation-height});
+  $counter-height: calc(#{$font-size} + #{$segmentation-height} * 2);
+  $half-height: calc(#{$font-size} * .5);
+  $place-holder-height: calc($counter-height - $half-height);
   $border-radius: calc(#{$font-size} * .1);
   display: inline-block;
 
   .counter-num {
-    width: $font-size;
+    width: $width;
     height: $counter-height;
     line-height: $counter-height;
     font-size: $font-size;
@@ -37,108 +39,92 @@ button {
     position: relative;;
     display: inline-block;
 
-    .top, .bottom {
-      height: $half-height;
-      background: $background-color;
-      color: $font-color;
-      overflow: hidden;
-    }
-
-    .placeholder {
-      height: $half-height;
-      background: transparent;
-      overflow: hidden;
+    .static {
+      height: $counter-height;
+      position: relative;
     }
 
     .segmentation {
       height: $segmentation-height;
       background: transparent;
     }
+    
+    .placeholder {
+      height: $place-holder-height;
+      background: transparent;
+      overflow: hidden;
+    }
+
+    .top, .bottom {
+      height: $half-height;
+      background: $background-color;
+      color: $font-color;
+    }
+
+    .current, .next {
+      height: $counter-height;
+    }
+
+    .top {
+      border-radius: $border-radius $border-radius 0 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .bottom {
+      border-radius: 0 0 $border-radius $border-radius;
+      position: relative;
+      overflow: hidden;
+
+      span {
+        height: $counter-height;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+      }
+    }
 
     span {
-      display: block;
-      width: $font-size;
-      height: $counter-height;
-    }
+      color: $font-color;
 
-    .static, .rotate {
-      .top {
-        border-radius: $border-radius $border-radius 0 0;
-      }
-
-      .bottom {
-        border-radius: 0 0 $border-radius $border-radius;
-        position: relative;
-
-        span {
-          position: absolute;
-          bottom: 0;
-        }
-      }
-    }
-
-    .static {
-      height: $counter-height;
-      position: relative;
     }
 
     .rotate {
       position: absolute;
       top: 0;
       left: 0;
-      z-index: 1;
       width: 100%;
-      height: $rotate-height;
+      height: $counter-height;
+      transform-style: preserve-3d;
+      backface-visibility: hidden;
+      
     }
 
     .current {
-      z-index: 2;
+      width: 100%;
+      position: absolute;
+      backface-visibility:hidden;
     }
 
     .next {
-      z-index: 1;
-      margin-top: $segmentation-height;
+      width: 100%;
+      bottom: 0;
+      position: absolute;
+      transform: rotateX(180deg);
+      backface-visibility:hidden;
+
     }
+    
+    
   }
 }
 
-.next{
-  transform: perspective($perspective) rotateX(90deg);
-}
-
-.rotate-current-enter {
+.rotate-enter {
   transform: perspective($perspective) rotateX(0deg);
 }
 
-.rotate-current-enter-active {
-  transform: perspective($perspective) rotateX(-90deg);
-}
-
-.rotate-current-enter-done {
-  transform: perspective($perspective) rotateX(-90deg);
+.rotate-enter-done {
+  transform: perspective($perspective) rotateX(-180deg);
   transition: all 0ms ease-in;
 }
-
-.rotate-current-exit {
-  transform: perspective($perspective) rotateX(0deg);
-  transition: all 0ms ease-in;
-}
-
-.rotate-next-enter {
-  transform:  perspective($perspective) rotateX(90deg);
-}
-
-.rotate-next-enter-active {
-  transform:  perspective($perspective) rotateX(0deg);
-}
-
-.rotate-next-enter-done {
-  transform: perspective($perspective) rotateX(0deg);
-  transition: all 0ms ease-out;
-}
-
-.rotate-next-exit {
-  transform: perspective($perspective) rotateX(90deg);
-  transition: all 0ms ease-out;
-}
-

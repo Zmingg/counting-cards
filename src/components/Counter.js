@@ -14,13 +14,15 @@ export default class Counter extends Component {
     // Number_padding
     padding: PropTypes.number,
     // Update Duration
-    duration: PropTypes.number
+    duration: PropTypes.number,
+
+    style: PropTypes.object
   };
 
   static defaultProps = {
     number: 0,
     padding: 8,
-    duration: 1000
+    duration: 1500
   };
 
   state = {
@@ -75,9 +77,10 @@ export default class Counter extends Component {
 
   render() {
     const {numbers} = this.state;
+    const {style} = this.props;
 
     return (
-      <div className="ui-counter">
+      <div className="ui-counter" style={style}>
         {numbers.map((num, index) => this.renderNum(num, index))}
       </div>
     );

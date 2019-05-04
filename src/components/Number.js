@@ -1,4 +1,5 @@
 import React, {Component, Fragment} from 'react';
+import {findDOMNode} from 'react-dom';
 import PropTypes from 'prop-types';
 import './counter.scss';
 import {
@@ -96,10 +97,12 @@ export default class Number extends Component {
   };
 
   afterTransition = () => {
-    this.setState({
+    const {current, duration} = this.state;
+
+    setTimeout(() => this.setState({
       rotate: false,
-      current: this.next(this.state.current)
-    });
+      current: this.next(current)
+    }), duration);
   };
 
   render() {
@@ -115,40 +118,40 @@ export default class Number extends Component {
             <span>{next}</span>
           </div>
           <div className="segmentation"/>
+          <div className="segmentation"/>
           <div className="bottom">
             <span>{current}</span>
           </div>
         </div>
 
-        <CSSTransition classNames="rotate-current"
-                       timeout={duration}
-                       in={rotate}>
-          <div className="rotate current" style={{
-            transitionDuration: (rotate ? duration / 2 : 0) + 'ms',
-          }}>
-            <div className="top">
-              <span>{current}</span>
-            </div>
-            <div className="placeholder"/>
-          </div>
-        </CSSTransition>
-
-        <CSSTransition classNames="rotate-next"
-                       timeout={duration}
+        <CSSTransition classNames="rotate"
+                       timeout={0}
                        onEntered={this.afterTransition}
                        in={rotate}>
-          <div className="rotate next" style={{
-            transitionDelay: (rotate ? duration / 2 : 0) + 'ms',
-            transitionDuration: (rotate ? duration / 2 : 0) + 'ms',
-          }}>
-            <div className="placeholder"/>
-            <div className="bottom">
-              <span>{next}</span>
-            </div>
+          <div 
+            className="rotate" 
+            style={{
+              transitionDuration: (rotate ? duration : 0) + 'ms',
+            }}
+          >
+            {/* <div className="top"> */}
+              <div className="current">
+                <div className="top">
+                  <span>{current}</span>
+                </div>
+                <div className="placeholder"/>
+              </div>
+              
+              <div className="next">
+                <div className="placeholder"/>
+                <div className="bottom">
+                  <span>{next}</span> 
+                </div>
+                 
+              </div>
+        
           </div>
         </CSSTransition>
-
-        {/*<button onClick={this.runTransition}>add</button>*/}
 
       </div>
 

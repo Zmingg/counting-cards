@@ -8,20 +8,20 @@ export default class Home extends Component {
   };
 
   componentDidMount() {
-    this.setTimeActive();
+    // this.setTimeActive();
   }
 
   setTimeActive = () => {
     setInterval(() => {
       this.setState({
-        number: this.state.number + Math.ceil(Math.random() * 1000)
+        number: this.state.number + Math.ceil(Math.random() * 10)
       })
-    }, 5000)
+    }, 3000)
   };
 
   handleChange = () => {
     this.setState({
-      number: this.state.number + Math.ceil(Math.random() * 1000)
+      number: this.state.number + Math.ceil(Math.random() * 900)
     })
   };
 
@@ -30,8 +30,8 @@ export default class Home extends Component {
 
     return (
       <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
-        <Counter number={number} padding={6} duration={1500}/>
-        {/*<button style={{marginTop: '50px'}} onClick={this.handleChange}>Change</button>*/}
+        <Counter number={number} padding={6} duration={1000} style={{fontSize: 60}}/>
+        <button style={{marginTop: '50px'}} onClick={this.handleChange}>Change</button>
       </div>
     );
   }

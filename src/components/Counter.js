@@ -10,7 +10,7 @@ export default class Counter extends Component {
 
   static propTypes = {
     // Current number
-    number: PropTypes.number.isRequired,
+    value: PropTypes.number.isRequired,
     // Number_padding
     padding: PropTypes.number,
     // Update Duration
@@ -20,7 +20,7 @@ export default class Counter extends Component {
   };
 
   static defaultProps = {
-    number: 0,
+    value: 0,
     padding: 8,
     duration: 1500
   };
@@ -33,8 +33,8 @@ export default class Counter extends Component {
     prevState: {},
   };
 
-  static splitNumbers = (number, padding) => {
-    const arr = number.toString().split('').map(v => parseInt(v));
+  static splitNumbers = (value, padding) => {
+    const arr = value.toString().split('').map(v => parseInt(v));
     for (let i = arr.length; i < padding; i++) {
       arr.unshift(0);
     }
@@ -43,10 +43,10 @@ export default class Counter extends Component {
 
   static getDerivedStateFromProps(props, state) {
     const newState = {};
-    const {number, padding} = props;
-    if (state.current !== number) {
-      newState.current = number;
-      newState.numbers = Counter.splitNumbers(number, padding)
+    const {value, padding} = props;
+    if (state.current !== value) {
+      newState.current = value;
+      newState.numbers = Counter.splitNumbers(value, padding)
     }
 
     return {
@@ -59,8 +59,8 @@ export default class Counter extends Component {
     super(props);
     this.state = {
       ...this.state,
-      current: props.number,
-      numbers: Counter.splitNumbers(props.number, props.padding)
+      current: props.value,
+      numbers: Counter.splitNumbers(props.value, props.padding)
     };
   }
 

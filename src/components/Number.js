@@ -22,7 +22,7 @@ export default class Number extends Component {
   };
 
   state = {
-    current: 0,
+    current: 1,
     rotate: false,
     duration: 1000,
     prevProps: {}
@@ -39,11 +39,11 @@ export default class Number extends Component {
     const newState = {};
     const prevProps = state.prevProps;
 
-    if (prevProps.current === undefined && props.current !== undefined) {
-      newState.current = props.current;
-    }
+    // if (prevProps.current === undefined && props.current !== undefined) {
+    //   newState.current = props.current;
+    // }
 
-    if (prevProps.current !== undefined && prevProps.current !== props.current) {
+    if (!state.rotate && state.current !== props.current) {
       newState.rotate = true;
       newState.duration = Number.duration(props.current, prevProps.current, props.duration);
     }
@@ -56,53 +56,30 @@ export default class Number extends Component {
   }
 
   componentDidUpdate(props, state) {
-    if (!this.state.rotate && props.current !== this.state.current) {
-      this.timerAction();
-    }
-
-    if (this.timer && props.current === this.state.current) {
-      clearInterval(this.timer);
-      this.timer = null;
+    if (!this.state.rotate && this.state.current !== this.props.current) {
       this.setState({
-        rotate: false
+        rotate: true
       })
     }
   }
 
-  timerAction = () => {
-    const props = this.props;
-    const {current, duration} = this.state;
-    if (!this.timer && current !== props.current) {
-      // const offset = props.current > this.state.current
-      //   ? props.current - this.state.current
-      //   : 10 + props.current - this.state.current;
-      this.timer = setInterval(() => {
-        this.setState({
-          // duration: props.duration / offset,
-          rotate: true
-        })
-      }, duration);
-    }
-
-  };
-
   next(num) {
     return num + 1 >= 10 ? 0 : num + 1;
   }
-
-  runTransition = () => {
-    this.setState({
-      rotate: true
-    });
-  };
-
+  
   afterTransition = () => {
     const {current, duration} = this.state;
 
-    setTimeout(() => this.setState({
-      rotate: false,
-      current: this.next(current)
-    }), duration);
+    if (this.exitTimmer) return;
+
+    this.exitTimmer = setTimeout(() => {
+      this.setState({
+        rotate: false,
+        current: this.next(current)
+      })
+      clearTimeout(this.exitTimmer);
+      this.exitTimmer = null;
+    }, duration);
   };
 
   render() {

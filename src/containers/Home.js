@@ -13,15 +13,13 @@ export default class Home extends Component {
 
   setTimeActive = () => {
     setInterval(() => {
-      this.setState({
-        number: this.state.number + Math.ceil(Math.random() * 10)
-      })
+      this.handleChange();
     }, 3000)
   };
 
   handleChange = () => {
     this.setState({
-      number: this.state.number + Math.ceil(Math.random() * 900)
+      number: this.state.number + 2 //Math.ceil(Math.random() * 50)
     })
   };
 
@@ -30,7 +28,7 @@ export default class Home extends Component {
 
     return (
       <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
-        <Counter number={number} padding={6} duration={1000} style={{fontSize: 60}}/>
+        <Counter value={number} padding={1} duration={1000} style={{fontSize: 60}}/>
         <button style={{marginTop: '50px'}} onClick={this.handleChange}>Change</button>
       </div>
     );

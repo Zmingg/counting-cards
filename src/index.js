@@ -1,9 +1,6 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import Home from './containers/Home';
+import Counter from 'components/Counter';
 import './style/index.scss';
 
-const MOUNT_NODE = document.getElementById('app');
-
-ReactDOM.render(<Home/>, MOUNT_NODE);
-
+export {
+  Counter
+};

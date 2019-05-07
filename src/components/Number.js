@@ -12,18 +12,22 @@ const debug = require('debug')('number');
 export default class Number extends Component {
 
   static propTypes = {
-    current: PropTypes.number.isRequired,
+    initial: PropTypes.number,
+    value: PropTypes.number.isRequired,
     duration: PropTypes.number
   };
 
   static defaultProps = {
-    current: 0,
+    initial: 0,
+    value: 0,
     duration: 1000
   };
 
   state = {
-    current: 1,
-    rotate: false,
+    current: 0,
+    next: 1,
+    rotateStart: false,
+    rotateEnd: false,
     duration: 1000,
     prevProps: {}
   };
@@ -39,13 +43,25 @@ export default class Number extends Component {
     const newState = {};
     const prevProps = state.prevProps;
 
-    // if (prevProps.current === undefined && props.current !== undefined) {
-    //   newState.current = props.current;
-    // }
+    if (prevProps.current === undefined && props.current !== undefined) {
+      return {
+        ...state,
+        current: props.current,
+        prevProps: props
+      }
+    }
 
-    if (!state.rotate && state.current !== props.current) {
-      newState.rotate = true;
-      newState.duration = Number.duration(props.current, prevProps.current, props.duration);
+    if (!state.rotateStart && state.rotateEnd) {
+      return {
+        ...state,
+        prevProps: props
+      }
+    }
+
+    if (state.current !== props.current) {
+      newState.rotateStart = true;
+      newState.rotateEnd = false;
+      newState.duration = Number.duration(props.current, state.current, props.duration);
     }
 
     return {
@@ -56,10 +72,15 @@ export default class Number extends Component {
   }
 
   componentDidUpdate(props, state) {
-    if (!this.state.rotate && this.state.current !== this.props.current) {
-      this.setState({
-        rotate: true
-      })
+    const {rotateStart, rotateEnd} = this.state;
+    if (!rotateStart && rotateEnd && this.state.current !== this.props.current) {
+      setTimeout(() => {
+        this.setState({
+          rotateStart: true,
+          rotateEnd: false
+        })
+      }, state.duration)
+      
     }
   }
 
@@ -74,8 +95,9 @@ export default class Number extends Component {
 
     this.exitTimmer = setTimeout(() => {
       this.setState({
-        rotate: false,
-        current: this.next(current)
+        rotateStart: false,
+        rotateEnd: true,
+        current: this.next(this.state.current)
       })
       clearTimeout(this.exitTimmer);
       this.exitTimmer = null;
@@ -84,7 +106,7 @@ export default class Number extends Component {
 
   render() {
     const {className, ...rest} = this.props;
-    const {current, rotate , duration} = this.state;
+    const {current, rotateStart, rotateEnd, duration} = this.state;
     const next = this.next(current);
 
     return (
@@ -104,11 +126,11 @@ export default class Number extends Component {
         <CSSTransition classNames="rotate"
                        timeout={0}
                        onEntered={this.afterTransition}
-                       in={rotate}>
+                       in={rotateStart}>
           <div 
             className="rotate" 
             style={{
-              transitionDuration: (rotate ? duration : 0) + 'ms',
+              transitionDuration: (rotateStart ? duration : 0) + 'ms',
             }}
           >
             {/* <div className="top"> */}

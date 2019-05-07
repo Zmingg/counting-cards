@@ -8,9 +8,17 @@ $font-size: 1em;
 $segmentation-height: .04em;
 /* margin */
 $margin: .1em;
+
+$color-1: rgb(28, 80, 221);
+$color-2: rgb(115, 144, 212);
 /* colors */
-$background-color: $secondary-color;
-$font-color: $primary-color;
+$background-color-top: linear-gradient($color-1, $color-2);;
+$background-color-bottom: linear-gradient($color-2, $color-1);;
+$border-color: #fff;
+
+$border-width: 0;
+
+$font-color: #fff;
 /* perspective */
 $perspective: 50px;
 
@@ -57,8 +65,10 @@ button {
 
     .top, .bottom {
       height: $half-height;
-      background: $background-color;
       color: $font-color;
+      border-color: $border-color;
+      border-style: solid;
+      box-shadow: inset 0 .01em .05em .01em rgb(8, 30, 128);
     }
 
     .current, .next {
@@ -69,25 +79,33 @@ button {
       border-radius: $border-radius $border-radius 0 0;
       position: relative;
       overflow: hidden;
+      background: $background-color-top;
+      border-width: $border-width $border-width 0 $border-width;
+
+      span {
+        top: 0;
+      }
     }
 
     .bottom {
       border-radius: 0 0 $border-radius $border-radius;
       position: relative;
       overflow: hidden;
+      background: $background-color-bottom;
+      border-width: 0 $border-width $border-width $border-width;
 
       span {
-        height: $counter-height;
-        position: absolute;
         bottom: 0;
-        left: 0;
-        right: 0;
       }
     }
 
     span {
       color: $font-color;
-
+      height: $counter-height;
+      position: absolute;
+      left: 0;
+      right: 0;
+      text-shadow: -0.01em -0.01em white, .02em .02em rgb(105, 105, 105);
     }
 
     .rotate {
@@ -98,22 +116,25 @@ button {
       height: $counter-height;
       transform-style: preserve-3d;
       backface-visibility: hidden;
-      
     }
 
     .current {
       width: 100%;
       position: absolute;
       backface-visibility:hidden;
+      transform-style: preserve-3d;
     }
 
     .next {
       width: 100%;
       bottom: 0;
+      left: 0;
+      right: 0;
       position: absolute;
       transform: rotateX(180deg);
+      transition: all 0ms linear;
       backface-visibility:hidden;
-
+      transform-style: preserve-3d;
     }
     
     
@@ -126,5 +147,5 @@ button {
 
 .rotate-enter-done {
   transform: perspective($perspective) rotateX(-180deg);
-  transition: all 0ms ease-in;
+  transition: all 0ms linear;
 }

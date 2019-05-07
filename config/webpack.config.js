@@ -1,7 +1,7 @@
 const path = require('path');
+const pkg = require('../package.json');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const webpackConfig = {
   context: path.resolve(__dirname, '.'),
@@ -9,13 +9,15 @@ const webpackConfig = {
   entry: '../src/index.js',
 
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.[chunkhash].js',
-    publicPath: '/'
+    path: path.resolve(__dirname, '../dist'),
+    filename: 'index.js',
+    publicPath: '/',
+    library: pkg.name,
+    libraryTarget: 'umd',
   },
 
   resolve: {
-    extensions: ['.js', '.jsx', '.ts', '.tsx'],
+    extensions: ['*', '.js', '.jsx', '.ts', '.tsx'],
     alias: {
       components: path.resolve(__dirname, '../src/components'),
     },
@@ -76,7 +78,7 @@ const webpackConfig = {
 
   plugins: [
     new HtmlWebPackPlugin({
-      template: '../index.html',
+      template: '../samples/index.html',
       filename: 'index.html'
     })
   ],
@@ -87,12 +89,14 @@ module.exports = (env, argv) => {
 
   if (argv.mode === 'development') {
 
+    webpackConfig.entry = '../samples/index.js',
+
     webpackConfig.devtool = 'source-map';
 
     webpackConfig.devServer = {
       contentBase: __dirname,
       host: '0.0.0.0',
-      port: '8099',
+      port: '8180',
       historyApiFallback: true,
       publicPath: '/',
       disableHostCheck: true
@@ -101,7 +105,7 @@ module.exports = (env, argv) => {
 
   if (argv.mode === 'production') {
 
-    webpackConfig.output.chunkFilename = '[chunkhash].js';
+    webpackConfig.externals = ['react', 'react-dom', 'lodash', 'prop-types', 'debug'];
 
     webpackConfig.plugins.push(
       new MiniCssExtractPlugin({
@@ -109,24 +113,6 @@ module.exports = (env, argv) => {
         chunkFilename: '[chunkhash].css',
       }),
     );
-
-    webpackConfig.optimization = {
-      splitChunks: {
-        chunks: 'initial',
-        minSize: 0,
-        cacheGroups: {
-          default: {
-            priority: -30,
-            reuseExistingChunk: true,
-          },
-          vendors: {
-            test: /[\\/]node_modules[\\/]/,
-            name: 'vendor',
-            priority: -20,
-          }
-        }
-      }
-    };
 
   }
 

@@ -24,7 +24,7 @@ const App = class extends React.Component {
 
     return (
       <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
-        <Counter value={value} padding={6} duration={1000} style={{fontSize: 100}}/>
+        <Counter value={value} padding={6} duration={1000} style={{fontSize: 100, color: '#7de5ff'}}/>
       </div>
     );
   }

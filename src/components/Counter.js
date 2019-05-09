@@ -22,7 +22,11 @@ export default class Counter extends Component {
   static defaultProps = {
     value: 0,
     padding: 8,
-    duration: 1500
+    duration: 1500,
+    style: {
+      fontSize: 100, 
+      color: '#7de5ff' 
+    }
   };
 
   state = {
